@@ -36,24 +36,26 @@ public class Snake {
 		 * calculate the head's next x and y position. Depending on the direction, the
 		 * head's x or y will increase or decrease by 1.
 		 */
-
+		int currentX =  head.getLocation().getX();
+		int currentY = head.getLocation().getY();
 		switch (currentDirection) {
 		case DOWN:
 		//get heads location then set y to -1
-			
+		currentY++;
 			break;
 		case UP:
-
+			currentY--;
 			break;
 		case LEFT:
-
+			currentX--;
 			break;
 		case RIGHT:
-
+			currentX++;
 			break;
 		default:
 			break;
 		}
+		head.setLocation(new Location(currentX, currentY));
 		int nextX;
 		int nextY;
 
@@ -71,7 +73,11 @@ public class Snake {
 		 */
 
 		// Set the canMove member variable to true.
-
+		
+		for (int i = snake.size()-1; i > 0 ; i--) {
+			snake.get(i).setLocation(snake.get(i-1).getLocation());;
+		}
+		canMove = true;
 	}
 
 	public void setDirection(Direction direction) {
@@ -83,7 +89,10 @@ public class Snake {
 		 * 
 		 * Hint: Use the isOppositeDirection method to check if Direction d is opposite.
 		 */
-
+		currentDirection = direction;
+		if (!isOppositeDirection(direction) && canMove == true) {
+			canMove = false;
+		}
 	}
 
 	private boolean isOppositeDirection(Direction direction) {
@@ -95,10 +104,16 @@ public class Snake {
 		 * Otherwise, return false. For example, if currentDirection is UP and the
 		 * passed in direction is DOWN this method should return false.
 		 */
-
+		
 		boolean isOpposite = true;
-
-		return isOpposite;
+		
+		if (direction ==  Direction.DOWN && currentDirection == Direction.UP || direction ==  Direction.LEFT && currentDirection == Direction.RIGHT || direction ==  Direction.RIGHT && currentDirection == Direction.LEFT || direction ==  Direction.UP && currentDirection == Direction.DOWN) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		
 	}
 
 	public void resetLocation() {
@@ -118,6 +133,12 @@ public class Snake {
 
 		// Add the head to the snake.
 
+		snake.clear();
+		
+		Location location = new Location(SnakeGame.WIDTH / 2, SnakeGame.HEIGHT / 2);
+		
+		head = new SnakeSegment(location, BODY_SIZE);
+		
 	}
 
 	public boolean isOutOfBounds() {
