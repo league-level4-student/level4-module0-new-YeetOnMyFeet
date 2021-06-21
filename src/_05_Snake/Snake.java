@@ -147,8 +147,16 @@ public class Snake {
 		 * Complete the method so it returns true if the head of the snake is outside of
 		 * the window and false otherwise.
 		 */
+		int currentX =  head.getLocation().getX();
+		int currentY = head.getLocation().getY();
+		if( currentX > 500 || currentX < 0 || currentY > 500 || currentY < 0  ){
+			 return true;
+			 }
+		else {
+			return false;
+		}
 
-		return false;
+		
 
 	}
 
@@ -158,7 +166,15 @@ public class Snake {
 		 * Complete the method so it returns true if the head is located in the same
 		 * location as any other body segment.
 		 */
-
+		for (int i = 0; i < snake.size()-1 ; i++) {
+			if (snake.get(i).getLocation() == head.getLocation()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+			
+		}
 		return false;
 	}
 
@@ -168,8 +184,13 @@ public class Snake {
 		 * Complete the method so it returns true if the passed in location is located
 		 * on the snake.
 		 */
-
-		return false;
+		
+		if (snake.contains(loc)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public void draw(Graphics g) {
